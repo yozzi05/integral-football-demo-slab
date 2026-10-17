@@ -1,0 +1,646 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Интеграл — школа футбола</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#07122b; --navy-2:#0d1d42; --navy-3:#142a5c;
+  --blue:#2f6bff; --sky:#9cc0ff; --ice:#e8f0ff;
+  --gold:#ffc83d; --gold-2:#ffb000;
+  --ink:#0b1430; --muted:#5d6a88; --line:rgba(255,255,255,.12);
+  --paper:#f4f7fd; --card:#ffffff;
+  --r:22px;
+  --display:"Roboto Slab",Georgia,serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Manrope,system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.55;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+.wrap{width:min(1200px,100% - 32px);margin-inline:auto}
+.h-display{font-family:var(--display);text-transform:uppercase;letter-spacing:-.01em;line-height:1.02}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-weight:800;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--blue)}
+.eyebrow::before{content:"";width:28px;height:2px;background:currentColor}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:16px 26px;border-radius:999px;font-weight:800;font-size:15px;border:0;cursor:pointer;transition:transform .2s,box-shadow .2s,background .2s}
+.btn-gold{background:var(--gold);color:var(--navy);box-shadow:0 10px 30px -10px rgba(255,200,61,.8)}
+.btn-gold:hover{transform:translateY(-2px);background:#ffd566}
+.btn-ghost{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(6px)}
+.btn-ghost:hover{background:rgba(255,255,255,.16)}
+.btn svg{width:18px;height:18px}
+
+/* topbar + nav */
+.topbar{background:var(--navy);color:#cfd9f2;font-size:13px}
+.topbar .wrap{display:flex;justify-content:space-between;align-items:center;height:40px;gap:16px}
+.topbar .soc{display:flex;gap:14px}
+.topbar .soc a{opacity:.75;font-weight:700}
+.topbar .soc a:hover{opacity:1;color:var(--gold)}
+header.nav{position:sticky;top:0;z-index:50;background:rgba(7,18,43,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+header.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:74px;gap:20px}
+.brand{display:flex;align-items:center;gap:12px;color:#fff}
+.brand img{width:48px;height:48px;border-radius:50%;background:#fff}
+.brand b{font-family:var(--display);font-size:17px;letter-spacing:.04em}
+.brand small{display:block;font-size:11px;color:var(--sky);letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+.menu{display:flex;gap:28px;color:#dfe7fa;font-weight:600;font-size:15px}
+.menu a{position:relative;padding:6px 0}
+.menu a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--gold);transition:width .25s}
+.menu a:hover::after{width:100%}
+.nav .btn{padding:12px 20px;font-size:14px}
+.burger{display:none;background:none;border:0;color:#fff;cursor:pointer}
+
+/* hero */
+.hero{position:relative;color:#fff;background:var(--navy);overflow:hidden;isolation:isolate}
+.hero::before{content:"";position:absolute;inset:0;background:url("assets/hero-bg.jpg") center/cover;opacity:.38;z-index:-2;transform:scale(1.05)}
+.hero::after{content:"";position:absolute;inset:0;background:
+  radial-gradient(900px 500px at 85% 30%,rgba(47,107,255,.45),transparent 60%),
+  linear-gradient(180deg,rgba(7,18,43,.4),rgba(7,18,43,.95) 92%);z-index:-1}
+.pitch{position:absolute;inset:auto -10% -40% -10%;height:70%;border:2px solid rgba(255,255,255,.07);border-radius:50% 50% 0 0;z-index:-1}
+.hero .wrap{display:grid;grid-template-columns:1.25fr .9fr;gap:40px;align-items:center;padding:90px 0 120px}
+.badge{display:inline-flex;align-items:center;gap:10px;padding:8px 14px 8px 8px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid var(--line);font-weight:700;font-size:13px;margin-bottom:26px}
+.badge i{font-style:normal;background:var(--gold);color:var(--navy);padding:4px 10px;border-radius:999px;font-weight:800}
+.hero h1{font-size:clamp(40px,7vw,92px);font-weight:900}
+.hero h1 span{display:block;background:linear-gradient(90deg,#fff,var(--sky) 60%,var(--blue));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero p.lead{font-size:clamp(16px,1.6vw,19px);color:#c9d5f3;max-width:540px;margin:24px 0 34px}
+.hero .ctas{display:flex;gap:14px;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:56px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.stats div{background:rgba(7,18,43,.55);padding:18px 16px;backdrop-filter:blur(6px)}
+.stats b{font-family:var(--display);font-size:clamp(22px,2.6vw,32px);display:block;color:#fff}
+.stats span{font-size:12.5px;color:#a9b8de;font-weight:600}
+.crest{position:relative;aspect-ratio:1;max-width:440px;justify-self:center;width:100%}
+.crest .ring{position:absolute;inset:0;border-radius:50%;border:1px dashed rgba(156,192,255,.4);animation:spin 40s linear infinite}
+.crest .ring:nth-child(2){inset:9%;border-style:solid;border-color:rgba(255,200,61,.35);animation-duration:26s;animation-direction:reverse}
+.crest .ring::before{content:"";position:absolute;top:-6px;left:50%;width:12px;height:12px;border-radius:50%;background:var(--gold);box-shadow:0 0 20px var(--gold)}
+.crest img{position:absolute;inset:18%;width:64%;height:64%;border-radius:50%;background:#fff;box-shadow:0 30px 80px -20px rgba(47,107,255,.9),0 0 0 10px rgba(255,255,255,.06);animation:float 6s ease-in-out infinite}
+.crest .chip{position:absolute;background:#fff;color:var(--ink);border-radius:14px;padding:10px 14px;font-weight:800;font-size:13px;box-shadow:0 20px 40px -15px rgba(0,0,0,.5);display:flex;gap:8px;align-items:center}
+.crest .chip small{display:block;font-weight:600;color:var(--muted);font-size:11px}
+.chip.c1{left:-4%;top:14%}.chip.c2{right:-6%;bottom:16%}
+.chip .dot{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--ice);font-size:18px}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes float{50%{transform:translateY(-12px)}}
+
+/* marquee */
+.ticker{background:var(--gold);color:var(--navy);overflow:hidden;transform:rotate(-1.2deg);margin:-26px -10px 0;position:relative;z-index:3;box-shadow:0 10px 30px -10px rgba(0,0,0,.3)}
+.ticker .track{display:flex;gap:44px;padding:16px 0;width:max-content;animation:marq 45s linear infinite;font-weight:800;text-transform:uppercase;font-size:14px;letter-spacing:.04em}
+.ticker .track span::before{content:"🏆";margin-right:10px}
+@keyframes marq{to{transform:translateX(-50%)}}
+
+section{padding:110px 0}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:50px;flex-wrap:wrap}
+.sec-head h2{font-size:clamp(30px,4.4vw,54px);font-weight:900;margin-top:14px}
+.sec-head p{max-width:420px;color:var(--muted)}
+
+/* feature tiles */
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.tile{position:relative;border-radius:var(--r);overflow:hidden;min-height:380px;color:#fff;display:flex;align-items:flex-end;padding:28px;isolation:isolate;transition:transform .35s}
+.tile:hover{transform:translateY(-6px)}
+.tile .bg{position:absolute;inset:0;background-size:cover;background-position:center;z-index:-2;transition:transform .6s}
+.tile:hover .bg{transform:scale(1.07)}
+.tile::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,rgba(7,18,43,.95));z-index:-1}
+.tile .num{position:absolute;top:22px;left:24px;font-family:var(--display);font-size:13px;background:rgba(255,255,255,.15);backdrop-filter:blur(8px);padding:6px 12px;border-radius:999px}
+.tile h3{font-family:var(--display);font-size:24px;text-transform:uppercase;margin-bottom:6px}
+.tile p{color:#c9d5f3;font-size:14px}
+.tile .arrow{position:absolute;top:20px;right:20px;width:46px;height:46px;border-radius:50%;background:var(--gold);color:var(--navy);display:grid;place-items:center;font-size:20px;font-weight:900;transition:transform .3s}
+.tile:hover .arrow{transform:rotate(-45deg)}
+
+/* advantages */
+.adv{background:var(--navy);color:#fff;position:relative;overflow:hidden}
+.adv::before{content:"";position:absolute;inset:0;background:url("assets/adv-bg.jpg") center/cover;opacity:.1}
+.adv .wrap{position:relative}
+.adv .sec-head p{color:#a9b8de}
+.adv .eyebrow{color:var(--gold)}
+.adv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.adv-card{background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02));border:1px solid var(--line);border-radius:var(--r);padding:34px 30px;transition:border-color .3s,transform .3s}
+.adv-card:hover{border-color:rgba(255,200,61,.6);transform:translateY(-4px)}
+.adv-card .ico{width:72px;height:72px;border-radius:20px;background:#fff;display:grid;place-items:center;margin-bottom:26px}
+.adv-card .ico img{max-width:44px;max-height:44px}
+.adv-card h3{font-family:var(--display);font-size:18px;text-transform:uppercase;margin-bottom:14px;line-height:1.25}
+.adv-card p{color:#b8c5e6;font-size:15px}
+
+/* coaches */
+.coaches{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.coach{background:var(--card);border-radius:var(--r);padding:30px;border:1px solid #e3e9f6;position:relative;overflow:hidden}
+.coach .ava{width:84px;height:84px;border-radius:24px;background:linear-gradient(135deg,var(--navy-3),var(--blue));color:#fff;font-family:var(--display);font-size:26px;display:grid;place-items:center;margin-bottom:22px}
+.coach .role{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--blue)}
+.coach h3{font-family:var(--display);font-size:19px;line-height:1.25;margin:6px 0 16px}
+.coach ul{list-style:none;display:grid;gap:9px}
+.coach li{font-size:14px;color:var(--muted);padding-left:22px;position:relative}
+.coach li::before{content:"⚽";position:absolute;left:0;font-size:12px;top:2px}
+.coach .big{position:absolute;right:-10px;top:-20px;font-family:var(--display);font-weight:900;font-size:120px;color:var(--ice);z-index:0;pointer-events:none}
+.coach>*:not(.big){position:relative;z-index:1}
+
+/* prices */
+.prices{background:linear-gradient(180deg,var(--ice),var(--paper))}
+.price-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.price{background:#fff;border-radius:var(--r);padding:30px 26px;border:1px solid #dfe7f7;display:flex;flex-direction:column;gap:6px;transition:transform .3s,box-shadow .3s}
+.price:hover{transform:translateY(-6px);box-shadow:0 30px 60px -30px rgba(13,29,66,.4)}
+.price.hot{background:var(--navy);color:#fff;border-color:var(--navy)}
+.price .tag{align-self:flex-start;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;background:var(--ice);color:var(--blue);padding:6px 10px;border-radius:999px;margin-bottom:14px}
+.price.hot .tag{background:var(--gold);color:var(--navy)}
+.price h3{font-family:var(--display);font-size:20px;text-transform:uppercase}
+.price .where{font-size:13px;color:var(--muted);min-height:40px}
+.price.hot .where,.price.hot .meta{color:#a9b8de}
+.price .amt{font-family:var(--display);font-weight:900;font-size:36px;margin:18px 0 4px}
+.price .amt small{font-family:Manrope;font-size:14px;font-weight:600;opacity:.6}
+.price .meta{font-size:14px;color:var(--muted);border-top:1px dashed #d6dff2;padding-top:14px;margin-top:auto}
+.trial{margin-top:24px;border-radius:var(--r);background:var(--gold);padding:30px 36px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.trial h3{font-family:var(--display);font-size:clamp(20px,2.4vw,28px);text-transform:uppercase}
+.trial p{font-weight:600}
+.trial .btn{background:var(--navy);color:#fff}
+
+/* locations */
+.loc{display:grid;grid-template-columns:.9fr 1.1fr;gap:26px}
+.loc-list{display:grid;gap:10px}
+.loc-btn{display:flex;gap:16px;align-items:center;text-align:left;width:100%;background:#fff;border:1px solid #e1e8f6;border-radius:18px;padding:18px 20px;cursor:pointer;font:inherit;color:inherit;transition:.25s}
+.loc-btn .n{font-family:var(--display);font-size:14px;width:40px;height:40px;border-radius:12px;background:var(--ice);color:var(--blue);display:grid;place-items:center;flex:none}
+.loc-btn b{display:block;font-size:15px}
+.loc-btn span{font-size:13px;color:var(--muted)}
+.loc-btn.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.loc-btn.on span{color:#a9b8de}
+.loc-btn.on .n{background:var(--gold);color:var(--navy)}
+.loc-detail{background:var(--navy);color:#fff;border-radius:var(--r);padding:40px;position:relative;overflow:hidden;min-height:100%}
+.loc-detail::before{content:"";position:absolute;right:-80px;bottom:-80px;width:320px;height:320px;border:2px solid rgba(255,255,255,.08);border-radius:50%}
+.loc-detail::after{content:"";position:absolute;right:40px;bottom:40px;width:120px;height:120px;border:2px solid rgba(255,255,255,.08);border-radius:50%}
+.loc-detail .type{color:var(--gold);font-weight:800;font-size:12px;letter-spacing:.16em;text-transform:uppercase}
+.loc-detail h3{font-family:var(--display);font-size:clamp(24px,3vw,34px);text-transform:uppercase;margin:10px 0 8px;line-height:1.1}
+.loc-detail .addr{color:var(--sky);font-weight:600;margin-bottom:22px}
+.loc-detail p{color:#c9d5f3;max-width:520px}
+.feats{display:flex;flex-wrap:wrap;gap:8px;margin:26px 0 30px}
+.feats span{background:rgba(255,255,255,.08);border:1px solid var(--line);padding:7px 13px;border-radius:999px;font-size:13px;font-weight:600}
+
+/* news */
+.news{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.post{background:#fff;border-radius:var(--r);overflow:hidden;border:1px solid #e3e9f6;display:flex;flex-direction:column;transition:transform .3s,box-shadow .3s}
+.post:hover{transform:translateY(-6px);box-shadow:0 30px 60px -30px rgba(13,29,66,.35)}
+.post .ph{aspect-ratio:4/3.4;overflow:hidden;position:relative}
+.post .ph img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.post:hover .ph img{transform:scale(1.07)}
+.post .date{position:absolute;left:14px;top:14px;background:#fff;border-radius:10px;padding:5px 10px;font-weight:800;font-size:12px}
+.post .body{padding:22px;display:flex;flex-direction:column;gap:10px;flex:1}
+.post h3{font-size:16px;font-weight:800;line-height:1.3;text-transform:uppercase}
+.post p{font-size:14px;color:var(--muted)}
+.post .more{margin-top:auto;font-weight:800;font-size:13px;color:var(--blue);letter-spacing:.06em}
+
+/* reviews */
+.reviews{background:var(--navy);color:#fff;overflow:hidden}
+.reviews .sec-head p{color:#a9b8de}.reviews .eyebrow{color:var(--gold)}
+.rev-track{display:flex;gap:22px;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.rev{flex:0 0 calc((100% - 44px)/3);background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:var(--r);padding:32px;display:flex;flex-direction:column;gap:18px}
+.rev .q{font-family:var(--display);font-size:60px;line-height:.6;color:var(--gold);height:30px}
+.rev p{color:#d5def4;font-size:15.5px}
+.rev .who{margin-top:auto;display:flex;align-items:center;gap:12px;font-weight:800}
+.rev .who i{width:42px;height:42px;border-radius:50%;background:var(--blue);display:grid;place-items:center;font-style:normal;font-family:var(--display);font-size:14px}
+.rev .who small{display:block;color:#8fa2cf;font-weight:600;font-size:12px}
+.stars{color:var(--gold);letter-spacing:3px}
+.rev-nav{display:flex;gap:10px}
+.rev-nav button{width:52px;height:52px;border-radius:50%;border:1px solid rgba(255,255,255,.3);background:transparent;color:#fff;font-size:20px;cursor:pointer;transition:.2s}
+.rev-nav button:hover{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+
+/* faq */
+.faq-wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:50px}
+details{background:#fff;border:1px solid #e1e8f6;border-radius:18px;margin-bottom:12px;overflow:hidden}
+summary{list-style:none;cursor:pointer;padding:22px 26px;font-weight:800;font-size:16px;display:flex;justify-content:space-between;gap:20px;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";flex:none;width:34px;height:34px;border-radius:50%;background:var(--ice);color:var(--blue);display:grid;place-items:center;font-size:20px;transition:transform .3s}
+details[open] summary::after{transform:rotate(45deg);background:var(--gold);color:var(--navy)}
+details .a{padding:0 26px 24px;color:var(--muted)}
+
+/* signup */
+.signup{padding:0 0 110px}
+.signup-card{background:radial-gradient(600px 300px at 90% 0%,rgba(47,107,255,.6),transparent 70%),var(--navy);color:#fff;border-radius:32px;padding:60px;display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center;position:relative;overflow:hidden}
+.signup-card h2{font-size:clamp(28px,4vw,48px);font-weight:900}
+.signup-card h2 em{font-style:normal;color:var(--gold)}
+.signup-card>div>p{color:#c9d5f3;margin-top:18px}
+form{display:grid;gap:12px}
+form input,form select{width:100%;padding:17px 20px;border-radius:14px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:#fff;font:inherit;font-size:15px;outline:none;transition:border-color .2s}
+form select option{color:#000}
+form input::placeholder{color:#8fa2cf}
+form input:focus,form select:focus{border-color:var(--gold)}
+form .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+form small{color:#8fa2cf;font-size:12px}
+form .btn{justify-content:center}
+
+footer{background:#040b1c;color:#a9b8de;padding:70px 0 30px;font-size:14px}
+.foot{display:grid;grid-template-columns:1.3fr 1fr 1fr 1.2fr;gap:40px;padding-bottom:40px;border-bottom:1px solid var(--line)}
+footer h4{color:#fff;font-size:13px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:16px}
+footer ul{list-style:none;display:grid;gap:9px}
+footer a:hover{color:var(--gold)}
+footer .tel{font-family:var(--display);color:#fff;font-size:20px;display:block;margin-bottom:6px}
+.copy{display:flex;justify-content:space-between;padding-top:24px;font-size:12px;gap:20px;flex-wrap:wrap}
+
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,140%);background:var(--gold);color:var(--navy);font-weight:800;padding:16px 24px;border-radius:14px;box-shadow:0 20px 40px -10px rgba(0,0,0,.4);transition:transform .4s;z-index:100}
+.toast.show{transform:translate(-50%,0)}
+
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .8s,transform .8s}
+.reveal.in{opacity:1;transform:none}
+
+@media (max-width:1000px){
+  .hero .wrap,.loc,.faq-wrap,.signup-card{grid-template-columns:1fr}
+  .crest{max-width:320px;order:-1}
+  .tiles,.adv-grid,.coaches{grid-template-columns:1fr 1fr}
+  .price-grid,.news{grid-template-columns:1fr 1fr}
+  .rev{flex-basis:calc((100% - 22px)/2)}
+  .foot{grid-template-columns:1fr 1fr}
+  .menu{display:none}
+  .burger{display:block}
+  .menu.open{display:flex;position:absolute;top:74px;left:0;right:0;flex-direction:column;background:var(--navy);padding:20px 16px;gap:14px}
+}
+@media (max-width:640px){
+  section{padding:76px 0}
+  .tiles,.adv-grid,.coaches,.price-grid,.news,.foot{grid-template-columns:1fr}
+  .stats{grid-template-columns:1fr 1fr}
+  .rev{flex-basis:100%}
+  .signup-card{padding:34px 22px;border-radius:24px}
+  form .row{grid-template-columns:1fr}
+  .topbar .soc,.nav .btn{display:none}
+  .hero .wrap{padding:50px 0 90px}
+  .chip.c1{left:-8%}.chip.c2{right:-8%}
+  .loc-detail{padding:28px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <a href="tel:89067990545">📞 +7 (906) 799-05-45 · Кутузовский пр-т, 43</a>
+    <div class="soc">
+      <a href="https://vk.com/integral_football" target="_blank" rel="noopener">VK</a>
+      <a href="https://t.me/integralfootball" target="_blank" rel="noopener">Telegram</a>
+      <a href="https://ok.ru/group/61599029723216" target="_blank" rel="noopener">OK</a>
+    </div>
+  </div>
+</div>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#">
+      <img src="assets/logo.png" alt="Логотип Интеграл">
+      <div><b>ИНТЕГРАЛ</b><small>Школа футбола</small></div>
+    </a>
+    <nav class="menu" id="menu">
+      <a href="#coaches">Тренеры</a>
+      <a href="#locations">Адреса</a>
+      <a href="#prices">Стоимость</a>
+      <a href="#reviews">Отзывы</a>
+      <a href="#news">Новости</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="btn btn-gold" href="#signup">Бесплатная тренировка</a>
+    <button class="burger" aria-label="Меню" onclick="document.getElementById('menu').classList.toggle('open')">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+</header>
+
+<section class="hero" style="padding:0">
+  <div class="pitch"></div>
+  <div class="wrap">
+    <div>
+      <div class="badge"><i>2026/27</i> Открыт набор детей с 2021 года рождения</div>
+      <h1 class="h-display">Школа<span>футбола</span><em>Интеграл</em></h1>
+      <p class="lead">Партнёр ДЮСШ «ПФК ЦСКА». Тренировки для детей в Москве у профессиональных игроков — чемпионов Европы и мастеров спорта. Турниры, сборы, командный дух.</p>
+      <div class="ctas">
+        <a class="btn btn-gold" href="#signup">Записаться бесплатно
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn btn-ghost" href="#prices">Стоимость занятий</a>
+      </div>
+      <div class="stats">
+        <div><b data-count="15">0</b><span>лет опыта у старшего тренера</span></div>
+        <div><b data-count="5">0</b><span>площадок в Москве</span></div>
+        <div><b data-count="40" data-plus>0</b><span>призовых мест на турнирах</span></div>
+        <div><b>0₽</b><span>пробная тренировка</span></div>
+      </div>
+    </div>
+    <div class="crest">
+      <div class="ring"></div><div class="ring"></div>
+      <img src="assets/logo.png" alt="">
+      <div class="chip c1"><span class="dot">🤝</span><div>ДЮСШ «ПФК ЦСКА»<small>Партнёрская программа</small></div></div>
+      <div class="chip c2"><span class="dot">🥉</span><div>MCL весна 2026<small>3 место · III разряд</small></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="ticker" aria-hidden="true"><div class="track" id="ticker"></div></div>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div><span class="eyebrow">Центр подготовки юных футболистов</span><h2 class="h-display">Больше чем<br>секция</h2></div>
+      <p>Тренировки, игровая практика и дружная команда — всё, чтобы ребёнок полюбил футбол и рос в нём.</p>
+    </div>
+    <div class="tiles">
+      <a class="tile reveal" href="https://integral.football/nashi-futbolisty/" target="_blank" rel="noopener">
+        <div class="bg" style="background-image:url('assets/tile-kids.jpg')"></div>
+        <span class="num">01</span><span class="arrow">→</span>
+        <div><h3>Дети «Интеграл»</h3><p>Команды от 2011 до 2021 г.р. — от первых касаний мяча до формата 11×11.</p></div>
+      </a>
+      <a class="tile reveal" href="https://integral.football/turnirs/" target="_blank" rel="noopener">
+        <div class="bg" style="background-image:url('assets/tile-tournaments.jpg')"></div>
+        <span class="num">02</span><span class="arrow">→</span>
+        <div><h3>Турниры</h3><p>Moscow Children's League, Детская лига «Прайм», MCL PRO, выездные кубки.</p></div>
+      </a>
+      <a class="tile reveal" href="#reviews">
+        <div class="bg" style="background-image:url('assets/tile-reviews.jpg')"></div>
+        <span class="num">03</span><span class="arrow">→</span>
+        <div><h3>Отзывы родителей</h3><p>«Ребёнок снова любит футбол, мотивирован, обрёл новых друзей».</p></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="adv">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div><span class="eyebrow">Наши преимущества</span><h2 class="h-display">Почему<br>«Интеграл»</h2></div>
+      <p>Три опоры, на которых строится подготовка каждого воспитанника.</p>
+    </div>
+    <div class="adv-grid">
+      <div class="adv-card reveal">
+        <div class="ico"><img src="assets/adv-1.png" alt=""></div>
+        <h3>Опытный тренерский штаб</h3>
+        <p>Тренеры с профессиональным игровым опытом и опытом работы с детьми. Умеют вовлекать и вдохновлять, воспитывают командный дух, сильный характер и волю.</p>
+      </div>
+      <div class="adv-card reveal">
+        <div class="ico"><img src="assets/adv-2.png" alt=""></div>
+        <h3>Сотрудничество с академией ПФК ЦСКА</h3>
+        <p>Стажировки тренеров при Академии, мастер-классы, товарищеские матчи всех возрастов. Лучших футболистов Центра просматривают в ДЮСШ «ПФК ЦСКА».</p>
+      </div>
+      <div class="adv-card reveal">
+        <div class="ico"><img src="assets/adv-3.png" alt=""></div>
+        <h3>Игровая практика</h3>
+        <p>Регулярные товарищеские матчи с командами Москвы и области, выездные и городские турниры, где ребята завоёвывают призовые места.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="coaches">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div><span class="eyebrow">Тренеры центра</span><h2 class="h-display">Работа длиною<br>в жизнь</h2></div>
+      <p>Чемпионы, игроки РПЛ и ФНЛ — теперь они передают опыт вашим детям.</p>
+    </div>
+    <div class="coaches">
+      <article class="coach reveal">
+        <span class="big">01</span>
+        <div class="ava">МК</div>
+        <span class="role">Старший тренер</span>
+        <h3>Ковальчук Максим Сергеевич</h3>
+        <ul>
+          <li>Чемпион Европы 7×7 (Франция, 2016)</li>
+          <li>Золото ЧМ FIF7 с женской сборной РФ и лучший тренер (Рио, 2021)</li>
+          <li>Высшее образование, МГАФК</li>
+          <li>Тренерский стаж — более 15 лет</li>
+        </ul>
+      </article>
+      <article class="coach reveal">
+        <span class="big">02</span>
+        <div class="ava">АМ</div>
+        <span class="role">Тренер центра</span>
+        <h3>Минченков Александр Викторович</h3>
+        <ul>
+          <li>Мастер спорта, чемпион ФНЛ, нападающий</li>
+          <li>Игрок РПЛ: «Локомотив» (Москва), «Мордовия», «Балтика»</li>
+          <li>Воспитанник школы «Чертаново»</li>
+          <li>Тренерский стаж — более 7 лет</li>
+        </ul>
+      </article>
+      <article class="coach reveal">
+        <span class="big">03</span>
+        <div class="ava">АШ</div>
+        <span class="role">Тренер центра</span>
+        <h3>Шкода Артём Сергеевич</h3>
+        <ul>
+          <li>КМС по футболу</li>
+          <li>Профессиональный футболист</li>
+          <li>Работает с младшими и средними возрастами</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="prices" id="prices">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div><span class="eyebrow">Стоимость</span><h2 class="h-display">Цены на<br>занятия</h2></div>
+      <p>Принимаем ребят независимо от уровня подготовки. Оплатить можно онлайн банковской картой.</p>
+    </div>
+    <div class="price-grid">
+      <div class="price reveal">
+        <span class="tag">Абонемент</span>
+        <h3>Старт / Прогресс</h3>
+        <div class="where">Зал «Арена Динамо»</div>
+        <div class="amt">8 500 <small>₽/мес</small></div>
+        <div class="meta">8 тренировок по 60 мин</div>
+      </div>
+      <div class="price hot reveal">
+        <span class="tag">Хит</span>
+        <h3>Профи</h3>
+        <div class="where">Для игроков соревновательных составов</div>
+        <div class="amt">13 000 <small>₽/мес</small></div>
+        <div class="meta">12 тренировок по 90 мин</div>
+      </div>
+      <div class="price reveal">
+        <span class="tag">Разово</span>
+        <h3>Вратари</h3>
+        <div class="where">Специализированные тренировки</div>
+        <div class="amt">1 500 <small>₽</small></div>
+        <div class="meta">от 1 тренировки · 90 мин</div>
+      </div>
+      <div class="price reveal">
+        <span class="tag">Разово</span>
+        <h3>Старт</h3>
+        <div class="where">ГБОУ Школа «Интеграл»</div>
+        <div class="amt">850 <small>₽</small></div>
+        <div class="meta">от 1 тренировки · 60 мин</div>
+      </div>
+    </div>
+    <div class="trial reveal">
+      <div><h3>Пробная тренировка — бесплатно</h3><p>Приходите знакомиться с тренером и командой.</p></div>
+      <a class="btn" href="#signup">Записаться →</a>
+    </div>
+  </div>
+</section>
+
+<section id="locations">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div><span class="eyebrow">Адреса отделений</span><h2 class="h-display">5 площадок<br>на западе Москвы</h2></div>
+      <p>Поля с искусственным газоном и современные залы рядом с «Минской», «Парком Победы» и «Багратионовской».</p>
+    </div>
+    <div class="loc reveal">
+      <div class="loc-list" id="locList"></div>
+      <div class="loc-detail" id="locDetail"></div>
+    </div>
+  </div>
+</section>
+
+<section class="reviews" id="reviews">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div><span class="eyebrow">Отзывы родителей</span><h2 class="h-display">Нам доверяют</h2></div>
+      <div class="rev-nav"><button id="prev" aria-label="Назад">←</button><button id="next" aria-label="Вперёд">→</button></div>
+    </div>
+    <div style="overflow:hidden"><div class="rev-track" id="revTrack"></div></div>
+  </div>
+</section>
+
+<section id="news">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div><span class="eyebrow">Новости</span><h2 class="h-display">Жизнь центра</h2></div>
+      <a class="btn" style="background:var(--navy);color:#fff" href="https://integral.football/blog/" target="_blank" rel="noopener">Все новости →</a>
+    </div>
+    <div class="news">
+      <a class="post reveal" href="https://integral.football/2026/09/06/novyj-sezon-2026-2027/" target="_blank" rel="noopener">
+        <div class="ph"><img src="assets/news-1.jpg" alt=""><span class="date">06.09.2026</span></div>
+        <div class="body"><h3>Новый сезон 2026/2027</h3><p>Призёры MCL получили III юношеский разряд, команда 2018/2019 впервые заявлена в турнир.</p><span class="more">ЧИТАТЬ ДАЛЕЕ →</span></div>
+      </a>
+      <a class="post reveal" href="https://integral.football/2026/06/04/detskaya-futbolnaya-liga-prajm-vesna-2026/" target="_blank" rel="noopener">
+        <div class="ph"><img src="assets/news-2.jpg" alt=""><span class="date">04.06.2026</span></div>
+        <div class="body"><h3>Детская лига «Прайм» весна 2026</h3><p>Четыре состава «Интеграла»: 2018, 2014/15, 2012/13 и 2011/12 — итоги чемпионата.</p><span class="more">ЧИТАТЬ ДАЛЕЕ →</span></div>
+      </a>
+      <a class="post reveal" href="https://integral.football/2026/04/08/rezultaty-zimnix-chempionatov-2025-2026/" target="_blank" rel="noopener">
+        <div class="ph"><img src="assets/news-3.jpg" alt=""><span class="date">08.04.2026</span></div>
+        <div class="body"><h3>Итоги зимних чемпионатов 2025/2026</h3><p>«Интеграл 2011» — 4 место в MCL PRO, успехи младших составов в Детской лиге.</p><span class="more">ЧИТАТЬ ДАЛЕЕ →</span></div>
+      </a>
+      <a class="post reveal" href="https://integral.football/2026/04/08/otlichnye-novosti/" target="_blank" rel="noopener">
+        <div class="ph"><img src="assets/news-4.jpg" alt=""><span class="date">08.04.2026</span></div>
+        <div class="body"><h3>Отличные новости!</h3><p>Свежие события из жизни центра и наших команд.</p><span class="more">ЧИТАТЬ ДАЛЕЕ →</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="faq" style="padding-top:0">
+  <div class="wrap faq-wrap">
+    <div class="reveal">
+      <span class="eyebrow">Частые вопросы</span>
+      <h2 class="h-display" style="font-size:clamp(30px,4.4vw,54px);margin:14px 0 18px">Отвечаем<br>родителям</h2>
+      <p style="color:var(--muted);margin-bottom:26px">Не нашли ответ? Позвоните — расскажем о группах, расписании и подберём площадку рядом с домом.</p>
+      <a class="btn btn-gold" href="tel:89067990545">+7 (906) 799-05-45</a>
+    </div>
+    <div class="reveal" id="faqList"></div>
+  </div>
+</section>
+
+<section class="signup" id="signup">
+  <div class="wrap">
+    <div class="signup-card reveal">
+      <div>
+        <span class="eyebrow" style="color:var(--gold)">Первый шаг</span>
+        <h2 class="h-display" style="margin-top:14px">Запишитесь на <em>бесплатную</em> тренировку</h2>
+        <p>Оставьте заявку онлайн — мы перезвоним, подберём группу по возрасту и ближайшую площадку.</p>
+      </div>
+      <form id="form">
+        <div class="row">
+          <input required placeholder="Имя родителя">
+          <input required type="tel" placeholder="Телефон">
+        </div>
+        <div class="row">
+          <select required><option value="">Год рождения ребёнка</option></select>
+          <select id="locSel"><option value="">Удобная площадка</option></select>
+        </div>
+        <button class="btn btn-gold" type="submit">Отправить заявку →</button>
+        <small>Демо-форма: данные никуда не отправляются.</small>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <a class="brand" href="#" style="margin-bottom:18px"><img src="assets/logo.png" alt=""><div><b>ИНТЕГРАЛ</b><small>ЦПЮФ</small></div></a>
+        <p>Центр подготовки юных футболистов «Интеграл». Партнёр ДЮСШ «ПФК ЦСКА».</p>
+      </div>
+      <div><h4>Центр</h4><ul><li><a href="https://integral.football/nashi-partnery/">Партнёры</a></li><li><a href="https://integral.football/blog/">Блог</a></li><li><a href="https://integral.football/galereya/">Фотогалерея</a></li><li><a href="https://integral.football/nashi-nagrady/">Наши награды</a></li></ul></div>
+      <div><h4>Родителям</h4><ul><li><a href="https://integral.football/chasto-zadavaemye-voprosy/">Частые вопросы</a></li><li><a href="https://integral.football/oplata/">Оплата</a></li><li><a href="https://integral.football/kontakty/">Контакты</a></li><li><a href="https://integral.football/politika-konfidencialnosti/">Политика конфиденциальности</a></li></ul></div>
+      <div><h4>Контакты</h4>
+        <a class="tel" href="tel:89067990545">+7 (906) 799-05-45</a>
+        <p>football.integral@gmail.com<br>г. Москва, Кутузовский проспект, д. 43</p>
+        <p style="margin-top:12px"><a href="https://vk.com/integral_football">VK</a> · <a href="https://t.me/integralfootball">Telegram</a> · <a href="https://ok.ru/group/61599029723216">OK</a></p>
+      </div>
+    </div>
+    <div class="copy"><span>© 2026 ООО ЦПЮФ «Интеграл» · ИНН 7730244210</span><span>Демо-редизайн главной страницы</span></div>
+  </div>
+</footer>
+
+<div class="toast" id="toast">Спасибо! Это демо — заявка не отправлена ⚽</div>
+
+<script>
+const awards=["1 место · Весенний чемпионат ОФЛ 2018","1 место · Moscow Snowdrop Series 2019","1 место · National Childrens Cup 2019","Серебряный кубок · Junior Footballer Cup, СПб","3 место · «Кубок будущих легенд», Сочи","1 место · Кубок Митинской лиги 2021","1 место · «Кубок солнца» на ВДНХ","Участник Кубка России U7","3 место · MCL весна 2026","1 место · Открытое первенство Ярославля"];
+document.getElementById('ticker').innerHTML=[...awards,...awards].map(a=>`<span>${a}</span>`).join('');
+
+const locs=[
+ {t:"Стадион",n:"Олимп Арена",a:"ул. Минская, 1Г · м. «Минская»",d:"Футбольное поле с искусственным газоном последнего поколения для игры в формате 8×8.",f:["Поле 8×8","Закрытая территория","Раздевалка","Бесплатная парковка","Кафе","Детская площадка"]},
+ {t:"Стадион",n:"Метеор",a:"ул. Генерала Ермолова, вл. 1 · м. «Парк Победы»",d:"Полноразмерное поле с искусственным газоном последнего поколения для игры в формате 11×11.",f:["Поле 11×11","Закрытая территория","Раздевалки","Парковка"]},
+ {t:"Зал",n:"Арена Динамо",a:"ул. Василисы Кожиной, 13 · м. «Багратионовская»",d:"Мини-зал с искусственным покрытием (трава 35 мм). Тренировки в группах до 10 человек.",f:["Группы до 10 чел.","Трава 35 мм","Охрана","Кафе"]},
+ {t:"Зал",n:"ГБОУ Школа «Интеграл»",a:"ул. Барклая, 5А · м. «Багратионовская»",d:"Новый спортивный зал с покрытием TARAFLEX на базе ГБОУ «Интеграл».",f:["TARAFLEX","Душ","Кулер с водой","Охрана"]},
+ {t:"Зал",n:"ГБОУ Школа «Интеграл»",a:"ул. Кастанаевская, 9А · м. «Багратионовская»",d:"Новый спортивный зал с покрытием TARAFLEX, просторные раздевалки.",f:["TARAFLEX","Раздевалки","Охрана"]}
+];
+const list=document.getElementById('locList'),det=document.getElementById('locDetail'),sel=document.getElementById('locSel');
+function showLoc(i){
+  [...list.children].forEach((b,j)=>b.classList.toggle('on',i===j));
+  const l=locs[i];
+  det.innerHTML=`<span class="type">${l.t}</span><h3>${l.n}</h3><div class="addr">📍 ${l.a}</div><p>${l.d}</p><div class="feats">${l.f.map(x=>`<span>${x}</span>`).join('')}</div><a class="btn btn-gold" href="#signup">Записаться сюда →</a>`;
+}
+locs.forEach((l,i)=>{
+  const b=document.createElement('button');b.className='loc-btn';
+  b.innerHTML=`<span class="n">0${i+1}</span><div><b>${l.t} «${l.n.replace(/[«»]/g,'')}»</b><span>${l.a}</span></div>`;
+  b.onclick=()=>showLoc(i);list.appendChild(b);
+  sel.add(new Option(`${l.n} — ${l.a.split(' · ')[0]}`));
+});
+showLoc(0);
+
+const yearSel=document.querySelector('#form select');
+for(let y=2021;y>=2011;y--)yearSel.add(new Option(y+' г.р.'));
+
+const reviews=[
+ ["Анна Л.","Мы с сыном уже второй год ходим на тренировки. Очень профессиональные тренеры и по полевой игре, и по вратарям. Индивидуальный подход к каждому ребёнку. Летние сборы — просто супер!"],
+ ["Анас Ф.","Очень довольны, что попали в «Интеграл». Ребёнок снова любит футбол, мотивирован, обрёл новых друзей. Замечательный тренерский состав и хорошие площадки."],
+ ["Екатерина Т.","Профессиональные тренеры и серьёзный подход. Мой сын после регулярных тренировок в Центре успешно перешёл в Академию «Динамо»."],
+ ["Роман Т.","Высококвалифицированный тренерский состав, удобное расположение, регулярные игры и турниры. Качественный инвентарь."],
+ ["Юлия С.","Крутые тренеры, отличная подготовка детей — не тяп-ляп, как часто встречаем, а именно на мощном уровне."],
+ ["Александр Ш.","Тренируемся больше года, очень нравится отношение тренеров и администрации к воспитанникам и родителям. Если ребёнок хочет заниматься — вам сюда!"]
+];
+const track=document.getElementById('revTrack');
+track.innerHTML=reviews.map(([n,t])=>`<div class="rev"><div class="q">“</div><div class="stars">★★★★★</div><p>${t}</p><div class="who"><i>${n[0]}</i><div>${n}<small>Родитель воспитанника</small></div></div></div>`).join('');
+let ri=0;
+function perView(){return innerWidth<=640?1:innerWidth<=1000?2:3}
+function moveRev(d){const max=reviews.length-perView();ri=Math.max(0,Math.min(max,ri+d));const w=track.children[0].getBoundingClientRect().width+22;track.style.transform=`translateX(${-ri*w}px)`}
+document.getElementById('prev').onclick=()=>moveRev(-1);
+document.getElementById('next').onclick=()=>moveRev(1);
+addEventListener('resize',()=>moveRev(0));
+
+const faq=[
+ ["Есть ли у моего ребёнка потенциал?","Потенциал есть у каждого ребёнка, но нужны желание, упорство и самоотдача. Наша задача — привить любовь к футболу и дать первичные навыки для дальнейшего развития."],
+ ["Не слишком ли большая нагрузка в таком возрасте?","Нет. Во время тренировки 3–4 перерыва, в раннем возрасте мы не развиваем силу и выносливость — занятия проходят в игровом формате, дети не замечают нагрузку."],
+ ["Когда ребёнок начнёт играть на турнирах?","Как только тренеры увидят, что ребёнок готов по игровым и психологическим качествам. До этого — тренировочные игры, чтобы подвести его к матчам без стресса."],
+ ["В каких соревнованиях участвуют команды?","За сезон (осень–весна) — междугородние турниры, товарищеские матчи и однодневные турниры в Москве и области, MCL и Детская лига «Прайм»."],
+ ["Есть ли летние сборы?","Да, учебно-тренировочные сборы раз в год летом в Подмосковье: две тренировки в день, лёгкая атлетика, анимация и досуг, 4-разовое питание."]
+];
+document.getElementById('faqList').innerHTML=faq.map(([q,a],i)=>`<details ${i?'':'open'}><summary>${q}</summary><div class="a">${a}</div></details>`).join('');
+
+document.getElementById('form').onsubmit=e=>{e.preventDefault();const t=document.getElementById('toast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);e.target.reset()};
+
+const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target)}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+document.querySelectorAll('[data-count]').forEach(el=>{
+  const end=+el.dataset.count,plus=el.hasAttribute('data-plus');let s=null;
+  const step=t=>{s??=t;const p=Math.min(1,(t-s)/1400);el.textContent=Math.round(end*(1-Math.pow(1-p,3)))+(plus||end===15?'+':'');if(p<1)requestAnimationFrame(step)};
+  requestAnimationFrame(step);
+});
+</script>
+</body>
+</html>
