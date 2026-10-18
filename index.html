@@ -75,7 +75,8 @@ header.nav .wrap{display:flex;align-items:center;justify-content:space-between;h
 .crest{position:relative;aspect-ratio:1;max-width:440px;justify-self:center;width:100%}
 .crest .ring{position:absolute;inset:0;border-radius:50%;border:1px dashed rgba(156,192,255,.4);animation:spin 40s linear infinite}
 .crest .ring:nth-child(2){inset:9%;border-style:solid;border-color:rgba(255,200,61,.35);animation-duration:26s;animation-direction:reverse}
-.crest .ring::before{content:"";position:absolute;top:-6px;left:50%;width:12px;height:12px;border-radius:50%;background:var(--gold);box-shadow:0 0 20px var(--gold)}
+.crest .ring::before{content:"";position:absolute;top:-11px;left:calc(50% - 11px);width:22px;height:22px;border-radius:50%;background:url("assets/ball.svg") center/contain no-repeat;box-shadow:0 0 18px rgba(255,255,255,.45)}
+.crest .ring:nth-child(2)::before{top:-9px;left:calc(50% - 9px);width:18px;height:18px}
 .crest img{position:absolute;inset:18%;width:64%;height:64%;border-radius:50%;background:#fff;box-shadow:0 30px 80px -20px rgba(47,107,255,.9),0 0 0 10px rgba(255,255,255,.06);animation:float 6s ease-in-out infinite}
 .crest .chip{position:absolute;background:#fff;color:var(--ink);border-radius:14px;padding:10px 14px;font-weight:800;font-size:13px;box-shadow:0 20px 40px -15px rgba(0,0,0,.5);display:flex;gap:8px;align-items:center}
 .crest .chip small{display:block;font-weight:600;color:var(--muted);font-size:11px}
